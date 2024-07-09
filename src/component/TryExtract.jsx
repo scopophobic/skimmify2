@@ -52,7 +52,7 @@ const TryExtract = () => {
 
   const summarizeContent = async (content) => {
     try {
-      console.log("Content:", content);
+      // console.log("Content:", content);
       // const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
   
@@ -63,10 +63,10 @@ const TryExtract = () => {
       const result = await model.generateContent(prompt);
 
       // Log the full result to inspect its structure
-      console.log("Result:", result);
+      // console.log("Result:", result);
       const response = await result.response;
       const text = response.text();
-      console.log(text);
+      // console.log(text);
       // Check if the response contains candidates and extract the summary text
       if (result && result.response && result.response.candidates && result.response.candidates.length > 0) {
         // const text = result.response.candidates[0].text;
