@@ -96,7 +96,7 @@ const TryExtract = () => {
           onClick={fetchData}  // Fetch data when the button is clicked
           className="mt-4 w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75"
         >
-          Fetch Paragraphs
+          Fetch Summary
         </button>
 
         {isLoading && <div className="mt-4 text-blue-600">Loading...</div>}
