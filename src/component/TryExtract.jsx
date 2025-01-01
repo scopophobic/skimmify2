@@ -41,7 +41,7 @@ const TryExtract = () => {
     // catch (error) {
     //   console.error("Error in keyword extraction:", error);
     //   return [];
-    const text = paragraphs.join(" ");
+    const text = para.join(" ");
     console.log("Combined Text:", text);
 
     // Step 2: Split text into words and filter
