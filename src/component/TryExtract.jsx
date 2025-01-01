@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import nlp from 'compromise';
+
 
 // Access your API key from environment variables
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const genAI = new GoogleGenerativeAI(apiKey);
+
+
 
 const TryExtract = () => {
   const [url, setUrl] = useState("");
@@ -14,6 +18,52 @@ const TryExtract = () => {
   const [summary, setSummary] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const stopwords = [
+    "the", "is", "at", "of", "on", "and", "a", "to", "in", "it", "for", "with", 
+    "as", "that", "this", "was", "by", "an", "be", "or", "not", "are", "from"
+  ];
+  
+
+  const extractKeywords = async (para) => {
+    try{
+    // const text = para.join(" ");
+    // const doc = nlp(text);
+    // // console.log("hwllo");
+    // // Extract all nouns (potential keywords)
+    // // const words = doc.nouns().out('array');
+    // // Remove stopwords and duplicates
+    // // console.log("hwllo");
+    // const filteredKeywords = [...new Set(doc.filter(word => !stopwords.includes(word.toLowerCase())))];
+    // // console.log("hwllo");
+    // return filteredKeywords;
+    // }
+    // catch (error) {
+    //   console.error("Error in keyword extraction:", error);
+    //   return [];
+    const text = paragraphs.join(" ");
+    console.log("Combined Text:", text);
+
+    // Step 2: Split text into words and filter
+    const words = text.split(/\s+/); // Split by spaces
+    console.log("All Words:", words);
+
+    // Step 3: Filter out stopwords and duplicates
+    const filteredKeywords = [...new Set(words.filter(word => {
+      const cleanWord = word.replace(/[^\w]/g, '').toLowerCase(); // Remove punctuation
+      return cleanWord && !stopwords.includes(cleanWord);
+    }))];
+
+    console.log("Filtered Keywords:", filteredKeywords);
+
+    return filteredKeywords;
+  } catch (error) {
+    console.error("Error in keyword extraction:", error);
+    return [];
+    }
+  
+  };
+
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -28,8 +78,13 @@ const TryExtract = () => {
         .get();
       setParagraphs(extractedParagraphs);
 
+      const keyword = await extractKeywords(extractedParagraphs);
+      
+      const keywordStr = keyword.join(" ");
+      console.log(keywordStr);
       if (extractedParagraphs.length > 0) {
-        summarizeContent(extractedParagraphs.slice(0, 10).join(" "));
+        // (extractedParagraphs.slice(0, 10).join(" ")
+        summarizeContent(keywordStr);
       }
     } catch (err) {
       setError("Error fetching paragraphs");
@@ -37,18 +92,18 @@ const TryExtract = () => {
       setIsLoading(false);
     }
   };
-//i was try it 
-  async function run() {
-    // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+  //i was try it 
+  // async function run() {
+  //   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+  //   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
   
-    const prompt = "Write a poem on love, word limit is 30words"
+  //   const prompt = "Write a poem on love, word limit is 30words"
   
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    console.log(text);
-  }
+  //   const result = await model.generateContent(prompt);
+  //   const response = await result.response;
+  //   const text = response.text();
+  //   console.log(text);
+  // }
 
   const summarizeContent = async (content) => {
     try {
