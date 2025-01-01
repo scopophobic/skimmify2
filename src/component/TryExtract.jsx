@@ -27,20 +27,6 @@ const TryExtract = () => {
 
   const extractKeywords = async (para) => {
     try{
-    // const text = para.join(" ");
-    // const doc = nlp(text);
-    // // console.log("hwllo");
-    // // Extract all nouns (potential keywords)
-    // // const words = doc.nouns().out('array');
-    // // Remove stopwords and duplicates
-    // // console.log("hwllo");
-    // const filteredKeywords = [...new Set(doc.filter(word => !stopwords.includes(word.toLowerCase())))];
-    // // console.log("hwllo");
-    // return filteredKeywords;
-    // }
-    // catch (error) {
-    //   console.error("Error in keyword extraction:", error);
-    //   return [];
     const text = para.join(" ");
     console.log("Combined Text:", text);
 
@@ -92,23 +78,12 @@ const TryExtract = () => {
       setIsLoading(false);
     }
   };
-  //i was try it 
-  // async function run() {
-  //   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-  //   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
-  
-  //   const prompt = "Write a poem on love, word limit is 30words"
-  
-  //   const result = await model.generateContent(prompt);
-  //   const response = await result.response;
-  //   const text = response.text();
-  //   console.log(text);
-  // }
+
 
   const summarizeContent = async (content) => {
     try {
       console.log("Content:", content);
-      // const genAI = new GoogleGenerativeAI(apiKey);
+
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
   
       const prompt = `Given the following content of a webpage, provide a concise summary of what the webpage is about: ${content}`;
@@ -122,7 +97,7 @@ const TryExtract = () => {
       const response = await result.response;
       const text = response.text();
       // console.log(text);
-      // Check if the response contains candidates and extract the summary text
+
       if (result && result.response && result.response.candidates && result.response.candidates.length > 0) {
         // const text = result.response.candidates[0].text;
         setSummary(text);
@@ -136,9 +111,9 @@ const TryExtract = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+    <div className=" bg-gray-100 flex flex-col items-center justify-center p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-4">Content Extractor</h1>
+        <h1 className="text-black text-2xl font-bold mb-4">Content Extractor</h1>
         <label htmlFor="url" className="block text-sm font-medium text-gray-700">Enter URL:</label>
         <input
           type="text"
