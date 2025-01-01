@@ -52,18 +52,18 @@ const TryExtract = () => {
 
   const summarizeContent = async (content) => {
     try {
-      // console.log("Content:", content);
+      console.log("Content:", content);
       // const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
   
       const prompt = `Given the following content of a webpage, provide a concise summary of what the webpage is about: ${content}`;
-      // console.log("Formatted Prompt:", prompt);
+      console.log("Formatted Prompt:", prompt);
   
       // Correctly call the generateContent method
       const result = await model.generateContent(prompt);
 
       // Log the full result to inspect its structure
-      // console.log("Result:", result);
+      console.log("Result:", result);
       const response = await result.response;
       const text = response.text();
       // console.log(text);
